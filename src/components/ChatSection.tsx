@@ -9,10 +9,12 @@ const ChatSection = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const ChatSection = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleSend();
     }
   };
@@ -59,7 +62,7 @@ const ChatSection = () => {
         </div>
         
         <div className="chat-section-box">
-          <div className="chat-section-messages">
+          <div className="chat-section-messages" ref={messagesContainerRef}>
             {messages.map((msg, index) => (
               <div key={index} className={`chat-section-message ${msg.role === "user" ? "user" : "bot"}`}>
                 <div className="message-content">{msg.content}</div>
@@ -70,7 +73,6 @@ const ChatSection = () => {
                 <div className="message-content">Thinking...</div>
               </div>
             )}
-            <div ref={messagesEndRef} />
           </div>
           
           <div className="chat-section-input">

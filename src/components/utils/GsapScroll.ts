@@ -131,7 +131,7 @@ export function setCharTimeline(
         .fromTo(
           ".character-model",
           { y: "-100%" },
-          { y: "0%", duration: 4, ease: "none" },
+          { y: "-35%", x: "-22%", duration: 4, ease: "none" },
           0
         )
         .to(character.rotation, { y: 0.92, x: 0.12, duration: 1 }, 0);
