@@ -72,21 +72,25 @@ const ChatSection = () => {
 
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput("");
-    setIsLoading(true);
-
-    try {
-      const response = await getGroqChatCompletion([...messages, userMessage]);
-      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
-    } catch (error) {
-      console.error("ChatSection error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "I'm having a bit of trouble right now. Feel free to reach out via the contact section!" },
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
+    
+    // Small timeout to ensure the user message render happens instantly
+    setTimeout(async () => {
+      setIsLoading(true);
+      try {
+        const response = await getGroqChatCompletion([...messages, userMessage]);
+        setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+      } catch (error) {
+        console.error("ChatSection error:", error);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "I'm having a bit of trouble right now. Feel free to reach out via the contact section!" },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 50);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

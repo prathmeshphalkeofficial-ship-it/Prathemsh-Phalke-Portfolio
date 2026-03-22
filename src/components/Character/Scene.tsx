@@ -108,6 +108,12 @@ const Scene = () => {
       }
       const animate = () => {
         requestAnimationFrame(animate);
+        
+        // Skip rendering and updates if the component is hidden to save performance
+        if (canvasDiv.current && getComputedStyle(canvasDiv.current).display === "none") {
+          return;
+        }
+
         if (headBone) {
           handleHeadRotation(
             headBone,

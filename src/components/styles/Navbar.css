@@ -30,6 +30,14 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.nav-chat-item span {
+  color: #3498db !important;
+}
+
+.nav-chat-item:hover span {
+  color: #fff !important;
+}
 .navbar-connect {
   position: absolute;
   display: none;
