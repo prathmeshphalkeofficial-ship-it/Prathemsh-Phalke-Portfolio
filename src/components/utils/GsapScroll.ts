@@ -36,6 +36,15 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+  const tl4 = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".chat-section",
+      start: "top center",
+      end: "bottom top",
+      scrub: true,
+      invalidateOnRefresh: true,
+    },
+  });
   let screenLight: any, monitor: any;
   character?.children.forEach((object: any) => {
     if (object.name === "Plane004") {
@@ -117,6 +126,15 @@ export function setCharTimeline(
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
         .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
+
+      tl4
+        .fromTo(
+          ".character-model",
+          { y: "-100%" },
+          { y: "0%", duration: 4, ease: "none" },
+          0
+        )
+        .to(character.rotation, { y: 0.92, x: 0.12, duration: 1 }, 0);
     }
   } else {
     if (character) {

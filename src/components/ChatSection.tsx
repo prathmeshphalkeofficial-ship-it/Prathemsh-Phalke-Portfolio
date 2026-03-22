@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import "./styles/ChatSection.css";
 import { getGroqChatCompletion } from "./utils/groq";
-import "./styles/ChatBot.css";
-import { IoSend, IoClose } from "react-icons/io5";
-import { BsChatFill } from "react-icons/bs";
+import { IoSend } from "react-icons/io5";
 
-const ChatBot = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ChatSection = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: "assistant", content: "Hi! I'm Prathmesh. How can I help you today?" },
+    { role: "assistant", content: "Hey! Want to chat about my work or tech stack? Ask me anything!" },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +31,10 @@ const ChatBot = () => {
       const response = await getGroqChatCompletion([...messages, userMessage]);
       setMessages((prev) => [...prev, { role: "assistant", content: response }]);
     } catch (error) {
-      console.error("ChatBot error:", error);
+      console.error("ChatSection error:", error);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Sorry, I'm having some trouble connecting right now. Please try again later!" },
+        { role: "assistant", content: "I'm having a bit of trouble right now. Feel free to reach out via the contact section!" },
       ]);
     } finally {
       setIsLoading(false);
@@ -50,31 +48,32 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="chatbot-container">
-      <div className={`chatbot-wrapper ${isOpen ? "open" : ""}`}>
-        <div className={`chat-box ${!isOpen ? "hidden" : ""}`}>
-          <div className="chat-header">
-            <h4>Chat with Prathmesh</h4>
-            <button onClick={() => setIsOpen(false)} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>
-              <IoClose size={20} />
-            </button>
-          </div>
-          
-          <div className="chat-messages">
+    <div className="chat-section" id="chat">
+      <div className="chat-section-container">
+        <div className="chat-section-info">
+          <h2 className="title">CHAT <span>WITH</span> ME</h2>
+          <p className="para">
+            Have questions about my projects, skills, or just want to say hi? 
+            My AI double is here to help you 24/7!
+          </p>
+        </div>
+        
+        <div className="chat-section-box">
+          <div className="chat-section-messages">
             {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.role === "user" ? "user" : "bot"}`}>
-                {msg.content}
+              <div key={index} className={`chat-section-message ${msg.role === "user" ? "user" : "bot"}`}>
+                <div className="message-content">{msg.content}</div>
               </div>
             ))}
             {isLoading && (
-              <div className="message bot typing-indicator">
-                Prathmesh is typing...
+              <div className="chat-section-message bot typing">
+                <div className="message-content">Thinking...</div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
           
-          <div className="chat-input-area">
+          <div className="chat-section-input">
             <input
               type="text"
               placeholder="Type your message..."
@@ -83,17 +82,13 @@ const ChatBot = () => {
               onKeyPress={handleKeyPress}
             />
             <button onClick={handleSend} disabled={isLoading}>
-              <IoSend size={18} />
+              <IoSend size={20} />
             </button>
           </div>
-        </div>
-
-        <div className={`chat-toggle ${isOpen ? "active" : ""}`} onClick={() => setIsOpen(!isOpen)}>
-          {!isOpen ? <BsChatFill size={25} /> : <IoClose size={25} />}
         </div>
       </div>
     </div>
   );
 };
 
-export default ChatBot;
+export default ChatSection;
