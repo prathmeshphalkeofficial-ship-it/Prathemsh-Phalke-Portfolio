@@ -128,13 +128,7 @@ export function setCharTimeline(
         .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
 
       tl4
-        .fromTo(
-          ".character-model",
-          { y: "-100%" },
-          { y: "0%", x: "-25%", duration: 4, ease: "none" },
-          0
-        )
-        .to(character.rotation, { y: 0.92, x: 0.12, duration: 1 }, 0);
+        .to(".character-model", { opacity: 0, duration: 1 }, 0);
     }
   } else {
     if (character) {
