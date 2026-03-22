@@ -117,6 +117,31 @@
   background: rgba(255, 255, 255, 0.1);
   color: #eee;
   border-bottom-left-radius: 2px;
+  padding-right: 35px;
+}
+
+.message-content-wrapper {
+  position: relative;
+}
+
+.listen-voice-btn {
+  position: absolute;
+  right: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.listen-voice-btn:hover {
+  color: #3498db;
 }
 
 .typing-indicator {
@@ -131,7 +156,35 @@
   background: rgba(255, 255, 255, 0.02);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
+  align-items: center;
   gap: 10px;
+}
+
+.mic-voice-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: all 0.3s;
+}
+
+.mic-voice-btn.active {
+  color: #e74c3c;
+  animation: chatbot-pulse 1.5s infinite;
+}
+
+@keyframes chatbot-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.mic-voice-btn:hover:not(.active) {
+  color: #fff;
 }
 
 .chat-input-area input {

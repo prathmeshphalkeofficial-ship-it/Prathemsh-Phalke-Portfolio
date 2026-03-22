@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getGroqChatCompletion } from "./utils/groq";
 import "./styles/ChatBot.css";
-import { IoSend, IoClose } from "react-icons/io5";
+import { IoSend, IoClose, IoMic, IoMicOff, IoVolumeHigh } from "react-icons/io5";
 import { BsChatFill } from "react-icons/bs";
 
 const ChatBot = () => {
@@ -11,7 +11,9 @@ const ChatBot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -21,6 +23,45 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = "en-US";
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput((prev) => prev + (prev ? " " : "") + transcript);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+    } else {
+      setIsListening(true);
+      recognitionRef.current?.start();
+    }
+  };
+
+  const speak = (text: string) => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -63,7 +104,14 @@ const ChatBot = () => {
           <div className="chat-messages">
             {messages.map((msg, index) => (
               <div key={index} className={`message ${msg.role === "user" ? "user" : "bot"}`}>
-                {msg.content}
+                <div className="message-content-wrapper">
+                  {msg.content}
+                  {msg.role === "assistant" && (
+                    <button className="listen-voice-btn" onClick={() => speak(msg.content)} title="Listen">
+                      <IoVolumeHigh size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
             {isLoading && (
@@ -75,6 +123,13 @@ const ChatBot = () => {
           </div>
           
           <div className="chat-input-area">
+            <button 
+              className={`mic-voice-btn ${isListening ? "active" : ""}`} 
+              onClick={toggleListening}
+              title={isListening ? "Stop listening" : "Start voice input"}
+            >
+              {isListening ? <IoMicOff size={18} /> : <IoMic size={18} />}
+            </button>
             <input
               type="text"
               placeholder="Type your message..."
@@ -82,7 +137,7 @@ const ChatBot = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
             />
-            <button onClick={handleSend} disabled={isLoading}>
+            <button className="send-btn" onClick={handleSend} disabled={isLoading}>
               <IoSend size={18} />
             </button>
           </div>
