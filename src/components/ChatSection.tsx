@@ -100,10 +100,10 @@ const ChatSection = () => {
     <div className="chat-section" id="chat">
       <div className="chat-section-container">
         <div className="chat-section-info">
-          <h2 className="title">CHAT WITH ME</h2>
+          <h2 className="title">CHAT <span>WITH</span> ME</h2>
           <p className="para">
             Have questions about my projects, skills, or just want to say hi? 
-            Ask my AI assistant anything!
+            My AI double is here to help you 24/7!
           </p>
         </div>
         

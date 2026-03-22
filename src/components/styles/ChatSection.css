@@ -30,6 +30,10 @@
   color: white;
 }
 
+.chat-section-info .title span {
+  color: #3498db;
+}
+
 .chat-section-info .para {
   font-size: 18px;
   color: #aaa;
