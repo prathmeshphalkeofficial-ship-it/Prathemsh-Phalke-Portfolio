@@ -3,9 +3,10 @@
   max-width: var(--cMaxWidth);
   width: var(--cWidth);
   bottom: 0;
-  z-index: 99;
+  z-index: 10000;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none;
 }
 .social-icons {
   position: absolute;
@@ -16,6 +17,7 @@
   gap: 8px;
   z-index: 999;
   padding: 10px;
+  pointer-events: auto;
 }
 .social-icons:hover {
   transition: 0.3s;
@@ -48,7 +50,7 @@
   z-index: 99;
   display: flex;
   gap: 5px;
-  bottom: 40px;
+  bottom: 80px;
   right: 0;
   width: auto;
   text-wrap: nowrap;
@@ -61,6 +63,12 @@
   transition: 0.5s;
   transform-origin: left bottom;
   transform: translateX(100%) rotateZ(-90deg);
+  pointer-events: auto;
+}
+@media only screen and (max-width: 768px) {
+  .resume-button {
+    bottom: 250px;
+  }
 }
 .resume-button:hover {
   color: #fff;
