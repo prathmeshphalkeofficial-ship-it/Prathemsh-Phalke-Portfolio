@@ -14,6 +14,12 @@ const Contact = () => {
                 prathmeshphalkeofficial@gmail.com
               </a>
             </p>
+            <h4>Phone</h4>
+            <p>
+              <a href="tel:8767520601" data-cursor="disable">
+                +91 8767520601
+              </a>
+            </p>
             <h4>Education</h4>
             <p>Bachelor of Architecture (Ongoing)</p>
           </div>

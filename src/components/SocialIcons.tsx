@@ -2,6 +2,7 @@ import {
   FaGithub,
   FaInstagram,
   FaLinkedinIn,
+  FaPhone,
   FaWhatsapp,
   FaXTwitter,
 } from "react-icons/fa6";
@@ -83,6 +84,11 @@ const SocialIcons = () => {
         <span>
           <a href="https://www.instagram.com/notreal_prathmesh_28" target="_blank">
             <FaInstagram />
+          </a>
+        </span>
+        <span>
+          <a href="tel:8767520601">
+            <FaPhone />
           </a>
         </span>
       </div>
