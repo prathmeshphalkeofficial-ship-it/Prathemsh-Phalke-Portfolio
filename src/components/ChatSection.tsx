@@ -72,7 +72,6 @@ const ChatSection = () => {
 
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
-    const currentInput = input;
     setInput("");
     
     // Small timeout to ensure the user message render happens instantly
