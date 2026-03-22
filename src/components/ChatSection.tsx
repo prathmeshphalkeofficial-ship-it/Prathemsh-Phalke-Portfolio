@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./styles/ChatSection.css";
 import { getGroqChatCompletion } from "./utils/groq";
-import { IoSend, IoMic, IoMicOff, IoVolumeHigh } from "react-icons/io5";
+import { IoSend, IoMic, IoMicOff, IoVolumeHigh, IoClose } from "react-icons/io5";
 
 const ChatSection = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -108,6 +108,12 @@ const ChatSection = () => {
         </div>
         
         <div className="chat-section-box">
+          <div className="chat-section-header">
+            <div className="header-info">
+              <div className="status-dot"></div>
+              <h4>Chat with Prathmesh</h4>
+            </div>
+          </div>
           <div className="chat-section-messages" ref={messagesContainerRef}>
             {messages.map((msg, index) => (
               <div key={index} className={`chat-section-message ${msg.role === "user" ? "user" : "bot"}`}>
@@ -121,7 +127,7 @@ const ChatSection = () => {
             ))}
             {isLoading && (
               <div className="chat-section-message bot typing">
-                <div className="message-content">Thinking...</div>
+                <div className="message-content">Prathmesh is typing...</div>
               </div>
             )}
           </div>

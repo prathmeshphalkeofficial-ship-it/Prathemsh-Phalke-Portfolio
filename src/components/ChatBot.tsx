@@ -95,7 +95,10 @@ const ChatBot = () => {
       <div className={`chatbot-wrapper ${isOpen ? "open" : ""}`}>
         <div className={`chat-box ${!isOpen ? "hidden" : ""}`}>
           <div className="chat-header">
-            <h4>Chat with Prathmesh</h4>
+            <div className="header-info">
+              <div className="status-dot"></div>
+              <h4>Chat with Prathmesh</h4>
+            </div>
             <button onClick={() => setIsOpen(false)} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>
               <IoClose size={20} />
             </button>
