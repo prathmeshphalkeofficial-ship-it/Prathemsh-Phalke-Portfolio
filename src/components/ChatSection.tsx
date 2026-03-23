@@ -10,6 +10,7 @@ const ChatSection = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [shouldAutoSend, setShouldAutoSend] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
@@ -35,6 +36,7 @@ const ChatSection = () => {
         const transcript = event.results[0][0].transcript;
         setInput((prev) => prev + (prev ? " " : "") + transcript);
         setIsListening(false);
+        setShouldAutoSend(true);
       };
 
       recognitionRef.current.onerror = (event: any) => {
@@ -91,6 +93,13 @@ const ChatSection = () => {
       }
     }, 50);
   };
+
+  useEffect(() => {
+    if (shouldAutoSend && input.trim() && !isLoading) {
+      handleSend();
+      setShouldAutoSend(false);
+    }
+  }, [shouldAutoSend, input, isLoading]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {

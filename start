@@ -1,3 +1,4 @@
 git add .
-git commit -m "fixed gsap issue"
+git commit -m "fixed issue"
 git push
+vercel --prod
