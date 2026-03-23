@@ -12,7 +12,6 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [shouldAutoSend, setShouldAutoSend] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
@@ -36,7 +35,14 @@ const ChatBot = () => {
         const transcript = event.results[0][0].transcript;
         setInput((prev) => prev + (prev ? " " : "") + transcript);
         setIsListening(false);
-        setShouldAutoSend(true);
+
+        // Auto-send after a short delay to allow React state to update the DOM
+        setTimeout(() => {
+          const sendBtn = document.querySelector('.chatbot-container .send-btn') as HTMLButtonElement;
+          if (sendBtn && !sendBtn.disabled) {
+            sendBtn.click();
+          }
+        }, 500);
       };
 
       recognitionRef.current.onerror = (event: any) => {
@@ -85,13 +91,6 @@ const ChatBot = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (shouldAutoSend && input.trim() && !isLoading) {
-      handleSend();
-      setShouldAutoSend(false);
-    }
-  }, [shouldAutoSend, input, isLoading]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
