@@ -18,6 +18,27 @@ const projects = [
     image: "/images/swaraj_gym.png",
     link: "https://swaraj-gym-fitness.vercel.app/",
   },
+  {
+    title: "Titan AI",
+    category: "AI Operating System / Jarvis Clone",
+    tools: "React, Next.js, AI Integration",
+    image: "/picture/screenshot/TITAN.png",
+    link: "https://titan-lite-os-prathmeshphalkeofficial-1984s-projects.vercel.app/",
+  },
+  {
+    title: "ByteSweep",
+    category: "Carbon Footprint Remover",
+    tools: "React, Analytics, Optimization",
+    image: "/picture/screenshot/Bytesweep.png",
+    link: "https://bytesweep.vercel.app/",
+  },
+  {
+    title: "Portfolio Website",
+    category: "Web Development",
+    tools: "React, 3D Models, Animations",
+    image: "/picture/screenshot/Portfolio.png",
+    link: "https://prathmesh-phalke-portfolio.vercel.app/",
+  },
 ];
 
 const Work = () => {
