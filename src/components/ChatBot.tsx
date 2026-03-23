@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getGroqChatCompletion } from "./utils/groq";
 import "./styles/ChatBot.css";
-import { IoSend, IoClose, IoMic, IoMicOff, IoVolumeHigh } from "react-icons/io5";
+import { IoSend, IoClose, IoMic, IoMicOff, IoVolumeHigh, IoStop } from "react-icons/io5";
 import { BsChatFill } from "react-icons/bs";
 
 const ChatBot = () => {
@@ -12,6 +12,7 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [currentlySpeaking, setCurrentlySpeaking] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
@@ -65,9 +66,20 @@ const ChatBot = () => {
     }
   };
 
-  const speak = (text: string) => {
+  const speak = (text: string, index: number) => {
+    if (window.speechSynthesis.speaking && currentlySpeaking === index) {
+      window.speechSynthesis.cancel();
+      setCurrentlySpeaking(null);
+      return;
+    }
+
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.onend = () => setCurrentlySpeaking(null);
+    utterance.onerror = () => setCurrentlySpeaking(null);
+
+    setCurrentlySpeaking(index);
     window.speechSynthesis.speak(utterance);
   };
   const handleSend = async () => {
@@ -118,8 +130,12 @@ const ChatBot = () => {
                 <div className="message-content-wrapper">
                   {msg.content}
                   {msg.role === "assistant" && (
-                    <button className="listen-voice-btn" onClick={() => speak(msg.content)} title="Listen">
-                      <IoVolumeHigh size={14} />
+                    <button 
+                      className="listen-voice-btn" 
+                      onClick={() => speak(msg.content, index)} 
+                      title={currentlySpeaking === index ? "Stop listening" : "Listen"}
+                    >
+                      {currentlySpeaking === index ? <IoStop size={14} /> : <IoVolumeHigh size={14} />}
                     </button>
                   )}
                 </div>

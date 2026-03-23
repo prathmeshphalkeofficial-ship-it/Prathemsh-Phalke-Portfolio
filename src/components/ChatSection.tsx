@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./styles/ChatSection.css";
 import { getGroqChatCompletion } from "./utils/groq";
-import { IoSend, IoMic, IoMicOff, IoVolumeHigh } from "react-icons/io5";
+import { IoSend, IoMic, IoMicOff, IoVolumeHigh, IoStop } from "react-icons/io5";
 
 const ChatSection = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -10,6 +10,7 @@ const ChatSection = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [currentlySpeaking, setCurrentlySpeaking] = useState<number | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
@@ -65,13 +66,24 @@ const ChatSection = () => {
     }
   };
 
-  const speak = (text: string) => {
+  const speak = (text: string, index: number) => {
+    if (window.speechSynthesis.speaking && currentlySpeaking === index) {
+      window.speechSynthesis.cancel();
+      setCurrentlySpeaking(null);
+      return;
+    }
+
     // Stop any ongoing speech
     window.speechSynthesis.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1;
     utterance.pitch = 1;
+
+    utterance.onend = () => setCurrentlySpeaking(null);
+    utterance.onerror = () => setCurrentlySpeaking(null);
+
+    setCurrentlySpeaking(index);
     window.speechSynthesis.speak(utterance);
   };
 
@@ -130,8 +142,12 @@ const ChatSection = () => {
               <div key={index} className={`chat-section-message ${msg.role === "user" ? "user" : "bot"}`}>
                 <div className="message-content">{msg.content}</div>
                 {msg.role === "assistant" && (
-                  <button className="listen-btn" onClick={() => speak(msg.content)} title="Listen to response">
-                    <IoVolumeHigh size={16} />
+                  <button 
+                    className="listen-btn" 
+                    onClick={() => speak(msg.content, index)} 
+                    title={currentlySpeaking === index ? "Stop listening" : "Listen to response"}
+                  >
+                    {currentlySpeaking === index ? <IoStop size={16} /> : <IoVolumeHigh size={16} />}
                   </button>
                 )}
               </div>
