@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./styles/ChatSection.css";
 import { getGroqChatCompletion } from "./utils/groq";
 import { IoSend, IoMic, IoMicOff, IoVolumeHigh, IoStop } from "react-icons/io5";
-import PortfolioVideo from "./PortfolioVideo";
+
 
 const ChatSection = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -180,8 +180,6 @@ const ChatSection = () => {
             </button>
           </div>
         </div>
-
-        <PortfolioVideo />
       </div>
     </div>
   );
