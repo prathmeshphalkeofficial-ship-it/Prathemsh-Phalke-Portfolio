@@ -13,6 +13,17 @@ const About = () => {
           design thinking, enabling creation of visually appealing and highly
           functional digital solutions.
         </p>
+        <div className="resume-video-wrap">
+          <h4>Resume Video</h4>
+          <video
+            className="resume-video"
+            controls
+            preload="metadata"
+            src="/videos/Prathmesh_Phalke__AI_Dev.mp4"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
     </div>
   );
