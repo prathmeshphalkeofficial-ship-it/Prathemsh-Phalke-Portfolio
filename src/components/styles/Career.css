@@ -10,6 +10,9 @@
   margin: auto;
   margin-bottom: 250px;
   padding: 120px 0px;
+  background-color: var(--backgroundColor);
+  width: var(--cWidth);
+  max-width: 1920px;
 }
 
 .career-section h2 {
@@ -17,11 +20,7 @@
   line-height: 70px;
   font-weight: 400;
   text-align: center;
-  background: linear-gradient(0deg, #0d9488, #ffffff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: var(--textPrimary);
   margin-top: 50px;
   margin-bottom: 90px;
 }
@@ -29,6 +28,7 @@
 .career-section h2>span {
   font-family: "Geist", sans-serif;
   font-weight: 300;
+  color: var(--accentColor);
 }
 
 .career-info {
@@ -42,6 +42,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
+  color: var(--textPrimary);
 }
 
 .career-info-box p {
@@ -49,6 +50,7 @@
   font-size: 18px;
   font-weight: 300;
   margin: 0;
+  color: var(--textSecondary);
 }
 
 .career-info-in {
@@ -63,6 +65,7 @@
   margin: 0;
   font-weight: 500;
   line-height: 45px;
+  color: var(--textPrimary);
 }
 
 .career-info h4 {
@@ -71,6 +74,7 @@
   letter-spacing: 0.8px;
   font-weight: 500;
   margin: 0;
+  color: var(--textPrimary);
 }
 
 .career-info h5 {
@@ -90,9 +94,8 @@
   width: 3px;
   height: 100%;
   background-image: linear-gradient(to top,
-      #14b8a6 20%,
-      var(--accentColor) 50%,
-      transparent 95%);
+      var(--accentColor),
+      transparent);
   max-height: 0%;
 }
 
@@ -101,12 +104,11 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
-  background-color: #14b8a6;
+  background-color: var(--accentColor);
   width: 10px;
   height: 10px;
   border-radius: 50px;
-  box-shadow: 0px 0px 5px 2px #67e8f9, 0px 0px 15px 8px #5eead4,
-    0px 0px 110px 20px #a5f3fc;
+  box-shadow: 0px 0px 5px 2px var(--accentColor);
   animation: timeline 0.8s linear infinite forwards;
 }
 
@@ -117,7 +119,7 @@
   50%,
   70%,
   90% {
-    box-shadow: 0px 0px 5px 2px #67e8f9;
+    box-shadow: 0px 0px 5px 2px var(--accentColor);
   }
 
   10%,
@@ -126,19 +128,17 @@
   100%,
   64%,
   80% {
-    box-shadow: 0px 0px 5px 2px #67e8f9, 0px 0px 15px 5px #5eead4,
-      0px 0px 110px 20px #a5f3fc;
+    box-shadow: 0px 0px 5px 2px var(--accentColor), 0px 0px 15px 5px var(--accentColor);
   }
 }
 
 @keyframes timeline2 {
   0% {
-    box-shadow: 0px 0px 5px 2px #67e8f9;
+    box-shadow: 0px 0px 5px 2px var(--accentColor);
   }
 
   100% {
-    box-shadow: 0px 0px 5px 2px #67e8f9, 0px 0px 15px 5px #5eead4,
-      0px 0px 110px 20px #a5f3fc;
+    box-shadow: 0px 0px 5px 2px var(--accentColor), 0px 0px 15px 5px var(--accentColor);
   }
 }
 
@@ -236,7 +236,6 @@
   .career-section {
     padding-top: 90px;
     margin-top: -70px;
-
     align-items: start;
     place-items: inherit;
     justify-content: left;

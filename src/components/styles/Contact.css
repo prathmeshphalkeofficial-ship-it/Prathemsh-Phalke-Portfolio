@@ -5,6 +5,8 @@
   position: relative;
   z-index: 2;
   background-color: var(--backgroundColor);
+  width: var(--cWidth);
+  max-width: 1920px;
 }
 
 .contact-section h3 {
@@ -12,6 +14,11 @@
   font-weight: 400;
   text-transform: uppercase;
   margin: 0;
+  color: var(--textPrimary);
+}
+
+.contact-container {
+  max-width: 100%;
 }
 
 .contact-flex {
@@ -22,7 +29,7 @@
 .contact-flex h4 {
   font-weight: 500;
   margin: 0;
-  opacity: 0.6;
+  color: var(--textSecondary);
 }
 
 .contact-box {
@@ -33,17 +40,40 @@
 .contact-flex p {
   margin-top: 10px;
   margin-bottom: 20px;
+  color: var(--textPrimary);
+}
+
+.contact-flex p a {
+  color: var(--textPrimary);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.contact-flex p a:hover {
+  color: var(--accentColor);
 }
 
 a.contact-social {
   font-size: 25px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--borderColor);
+  color: var(--textPrimary);
+  text-decoration: none;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+a.contact-social:hover {
+  color: var(--accentColor);
+  border-color: var(--accentColor);
 }
 
 .contact-box h2 {
   font-weight: 400;
   font-size: 23px;
   margin: 0;
+  color: var(--textPrimary);
 }
 
 .contact-box h2>span {
@@ -56,7 +86,7 @@ a.contact-social {
   line-height: 20px;
   display: flex;
   gap: 10px;
-  opacity: 0.5;
+  color: var(--textSecondary);
 }
 
 @media only screen and (max-width: 1600px) {

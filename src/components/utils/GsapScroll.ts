@@ -5,10 +5,14 @@ export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
 ) {
+  // Use requestAnimationFrame for smoother intensity updates
   let intensity: number = 0;
-  setInterval(() => {
+  const updateIntensity = () => {
     intensity = Math.random();
-  }, 200);
+    requestAnimationFrame(updateIntensity);
+  };
+  updateIntensity();
+
   const tl1 = gsap.timeline({
     scrollTrigger: {
       trigger: ".landing-section",
@@ -18,6 +22,7 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+
   const tl2 = gsap.timeline({
     scrollTrigger: {
       trigger: ".about-section",
@@ -27,6 +32,7 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+
   const tl3 = gsap.timeline({
     scrollTrigger: {
       trigger: ".whatIDO",
@@ -36,6 +42,7 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+
   const tl4 = gsap.timeline({
     scrollTrigger: {
       trigger: ".chat-section",
@@ -45,7 +52,9 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+
   let screenLight: any, monitor: any;
+
   character?.children.forEach((object: any) => {
     if (object.name === "Plane004") {
       object.children.forEach((child: any) => {
@@ -61,7 +70,8 @@ export function setCharTimeline(
       object.material.transparent = true;
       object.material.opacity = 0;
       object.material.emissive.set("#B0F5EA");
-      gsap.timeline({ repeat: -1, repeatRefresh: true }).to(object.material, {
+      // Remove repeatRefresh for better performance
+      gsap.timeline({ repeat: -1 }).to(object.material, {
         emissiveIntensity: () => intensity * 8,
         duration: () => Math.random() * 0.6,
         delay: () => Math.random() * 0.1,
@@ -69,7 +79,9 @@ export function setCharTimeline(
       screenLight = object;
     }
   });
+
   let neckBone = character?.getObjectByName("spine005");
+
   if (window.innerWidth > 1024) {
     if (character) {
       tl1
@@ -86,8 +98,6 @@ export function setCharTimeline(
           { z: 75, y: 8.4, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
-        .to(".about-section", { y: "30%", duration: 6 }, 0)
-        .to(".about-section", { opacity: 0, delay: 3, duration: 2 }, 0)
         .fromTo(
           ".character-model",
           { pointerEvents: "inherit" },
@@ -128,7 +138,7 @@ export function setCharTimeline(
         .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
 
       tl4
-        .to(".character-model", { opacity: 0, display: "none", duration: 1 }, 0);
+        .to(".character-model", { opacity: 0, duration: 1 }, 0);
     }
   } else {
     if (character) {
@@ -154,6 +164,7 @@ export function setAllTimeline() {
       invalidateOnRefresh: true,
     },
   });
+
   careerTimeline
     .fromTo(
       ".career-timeline",
@@ -161,7 +172,6 @@ export function setAllTimeline() {
       { maxHeight: "100%", duration: 0.5 },
       0
     )
-
     .fromTo(
       ".career-timeline",
       { opacity: 0 },
@@ -185,19 +195,10 @@ export function setAllTimeline() {
       0
     );
 
-  if (window.innerWidth > 1024) {
-    careerTimeline.fromTo(
-      ".career-section",
-      { y: 0 },
-      { y: "20%", duration: 0.5, delay: 0.2 },
-      0
-    );
-  } else {
-    careerTimeline.fromTo(
-      ".career-section",
-      { y: 0 },
-      { y: 0, duration: 0.5, delay: 0.2 },
-      0
-    );
-  }
+  careerTimeline.fromTo(
+    ".career-section",
+    { y: 0 },
+    { y: window.innerWidth > 1024 ? "20%" : 0, duration: 0.5, delay: 0.2 },
+    0
+  );
 }

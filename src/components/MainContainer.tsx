@@ -10,6 +10,7 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import { initSectionWatcher } from "./utils/SectionWatcher";
 
 const TechStack = lazy(() => import("./TechStack"));
 
@@ -25,8 +26,13 @@ const MainContainer = ({ children }: PropsWithChildren) => {
     };
     resizeHandler();
     window.addEventListener("resize", resizeHandler);
+
+    // Initialize section watcher after DOM is ready
+    const cleanupSection = initSectionWatcher();
+
     return () => {
       window.removeEventListener("resize", resizeHandler);
+      cleanupSection();
     };
   }, [isDesktopView]);
 

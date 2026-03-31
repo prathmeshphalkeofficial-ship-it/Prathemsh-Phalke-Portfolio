@@ -25,7 +25,7 @@ const WhatIDo = () => {
     };
   }, []);
   return (
-    <div className="whatIDO">
+    <div className="whatIDO" id="whatido">
       <div className="what-box">
         <h2 className="title">
           W<span className="hat-h2">HAT</span>
@@ -129,7 +129,7 @@ const WhatIDo = () => {
               <h3>ARCHITECT</h3>
               <h4>Design & Spatial Planning</h4>
               <p>
-                Applying architectural principles to digital and physical spaces. 
+                Applying architectural principles to digital and physical spaces.
                 Integrating design thinking into functional and aesthetic solutions.
               </p>
               <h5>Skillset & tools</h5>
