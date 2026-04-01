@@ -13,6 +13,20 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
+
+  const toggleMobileMenu = () => {
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("mobileOverlay");
+    const hamburger = document.querySelector(".hamburger") as HTMLElement;
+
+    menu?.classList.toggle("active");
+    overlay?.classList.toggle("active");
+    hamburger?.classList.toggle("active");
+
+    // Toggle body scroll
+    document.body.style.overflow = menu?.classList.contains("active") ? "hidden" : "";
+  };
+
   useEffect(() => {
     smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
@@ -94,6 +108,25 @@ const Navbar = () => {
             </label>
           </li>
         </ul>
+
+        {/* Mobile actions container */}
+        <div className="mobile-actions">
+          <div className="hamburger" onClick={toggleMobileMenu}>
+            <span className="hamburger-icon">☰</span>
+            <span className="close-icon">✕</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div className="mobile-overlay" id="mobileOverlay" onClick={toggleMobileMenu}></div>
+
+      {/* Mobile Menu */}
+      <div className="mobile-menu" id="mobileMenu">
+        <a href="#about" onClick={toggleMobileMenu}>About</a>
+        <a href="#work" onClick={toggleMobileMenu}>Work</a>
+        <a href="#contact" onClick={toggleMobileMenu}>Contact</a>
+        <a href="#chat" onClick={toggleMobileMenu}>Chat</a>
       </div>
 
       <div className="landing-circle1"></div>
