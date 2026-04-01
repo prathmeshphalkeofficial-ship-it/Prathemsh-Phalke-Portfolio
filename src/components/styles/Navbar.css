@@ -103,6 +103,103 @@ html.dark .header {
   justify-content: center;
 }
 
+/* Premium Theme Toggle */
+#theme-toggle-button {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+
+#toggle {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  width: 56px;
+  height: 28px;
+  background: var(--surfaceElevated);
+  border-radius: 50px;
+  position: relative;
+  transition: background-color 0.4s ease;
+  border: 1px solid var(--borderColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-thumb {
+  width: 22px;
+  height: 22px;
+  background: #FFD600;
+  border-radius: 50%;
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 8px rgba(255, 214, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-icon {
+  font-size: 12px;
+  transition: opacity 0.3s ease;
+  position: absolute;
+}
+
+.toggle-icon.sun {
+  opacity: 1;
+}
+
+.toggle-icon.moon {
+  opacity: 0;
+}
+
+/* Dark mode toggle styles */
+html.dark .toggle-track {
+  background: #1f2937;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark .toggle-thumb {
+  left: calc(100% - 24px);
+  background: #60a5fa;
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+}
+
+html.dark .toggle-icon.sun {
+  opacity: 0;
+}
+
+html.dark .toggle-icon.moon {
+  opacity: 1;
+}
+
+/* Hover effect */
+#theme-toggle-button:hover .toggle-track {
+  transform: scale(1.05);
+}
+
+#theme-toggle-button:active .toggle-track {
+  transform: scale(0.95);
+}
+
+/* Light mode specific */
+html.light .toggle-track {
+  background: #e5e7eb;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+html.light .toggle-thumb {
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
 @media only screen and (min-width: 500px) {
   .header {
     padding: 20px 0px;

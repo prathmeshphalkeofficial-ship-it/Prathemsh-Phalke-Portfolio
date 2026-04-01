@@ -1,5 +1,7 @@
 .section-container {
-  width: 1300px;
+  width: 100%;
+  padding: 0 40px;
+  max-width: 100%;
 }
 .title,
 .para {
@@ -9,20 +11,8 @@
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
-@media only screen and (max-width: 1600px) {
-  .section-container {
-    width: 1200px;
-    max-width: calc(100% - 160px);
-  }
-}
-@media only screen and (max-width: 1400px) {
-  .section-container {
-    width: 900px;
-  }
-}
 @media only screen and (max-width: 900px) {
   .section-container {
-    width: 500px;
-    max-width: var(--cWidth);
+    padding: 0 20px;
   }
 }
