@@ -200,6 +200,44 @@ html.light .toggle-thumb {
   box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
 }
 
+@media only screen and (max-width: 768px) {
+  .header {
+    padding: 10px 15px;
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    margin-bottom: 0;
+    align-items: center;
+  }
+
+  .header ul {
+    gap: 5px;
+    align-items: center;
+  }
+
+  .header ul li {
+    font-size: 11px;
+  }
+
+  .theme-toggle-container {
+    display: flex;
+    transform: scale(0.85);
+  }
+
+  .navbar-connect {
+    display: none;
+  }
+
+  .navbar-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .navbar-title {
+    font-size: 12px;
+  }
+}
+
 @media only screen and (min-width: 500px) {
   .header {
     padding: 20px 0px;

@@ -262,6 +262,36 @@ h2.landing-info-h2 {
   left: 0;
 }
 
+@media screen and (max-width: 768px) {
+  .landing-intro h2 {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  .landing-intro h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .landing-info h3 {
+    font-size: 18px;
+  }
+
+  .landing-info h2 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  h2.landing-info-h2 {
+    font-size: 32px;
+  }
+
+  .character-model {
+    height: 60vh;
+  }
+}
+
 @media screen and (min-width: 500px) {
   .landing-circle2 {
     display: block;
