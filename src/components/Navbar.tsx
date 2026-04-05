@@ -3,8 +3,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-import "./styles/Navbar.css";
 import { useTheme } from "../context/ThemeContext";
+import "./styles/Navbar.css";
 
 import { SplitText } from "gsap/SplitText";
 
@@ -13,19 +13,6 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
-
-  const toggleMobileMenu = () => {
-    const menu = document.getElementById("mobileMenu");
-    const overlay = document.getElementById("mobileOverlay");
-    const hamburger = document.querySelector(".hamburger") as HTMLElement;
-
-    menu?.classList.toggle("active");
-    overlay?.classList.toggle("active");
-    hamburger?.classList.toggle("active");
-
-    // Toggle body scroll
-    document.body.style.overflow = menu?.classList.contains("active") ? "hidden" : "";
-  };
 
   useEffect(() => {
     smoother = ScrollSmoother.create({
@@ -91,42 +78,81 @@ const Navbar = () => {
               <HoverLinks text="CHAT" />
             </a>
           </li>
-          <li className="theme-toggle-container">
-            <label id="theme-toggle-button">
+          <li className="theme-toggle-item">
+            <label className="switch">
               <input
-                id="toggle"
+                id="theme-toggle"
                 type="checkbox"
                 checked={isDark}
                 onChange={toggleTheme}
+                aria-label="Toggle dark mode"
               />
-              <div className="toggle-track">
-                <div className="toggle-thumb">
-                  <span className="toggle-icon sun">☀️</span>
-                  <span className="toggle-icon moon">🌙</span>
+              <div className="slider round">
+                <div className="sun-moon">
+                  <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="moon-dot-2" className="moon-dot" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="moon-dot-3" className="moon-dot" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="light-ray-1" className="light-ray" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="light-ray-2" className="light-ray" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="light-ray-3" className="light-ray" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+
+                  <svg id="cloud-1" className="cloud-dark" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="cloud-2" className="cloud-dark" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="cloud-3" className="cloud-dark" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="cloud-4" className="cloud-light" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="cloud-5" className="cloud-light" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                  <svg id="cloud-6" className="cloud-light" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50"></circle>
+                  </svg>
+                </div>
+                <div className="stars">
+                  <svg id="star-1" className="star" viewBox="0 0 20 20">
+                    <path
+                      d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                    ></path>
+                  </svg>
+                  <svg id="star-2" className="star" viewBox="0 0 20 20">
+                    <path
+                      d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                    ></path>
+                  </svg>
+                  <svg id="star-3" className="star" viewBox="0 0 20 20">
+                    <path
+                      d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                    ></path>
+                  </svg>
+                  <svg id="star-4" className="star" viewBox="0 0 20 20">
+                    <path
+                      d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                    ></path>
+                  </svg>
                 </div>
               </div>
             </label>
           </li>
         </ul>
-
-        {/* Mobile actions container */}
-        <div className="mobile-actions">
-          <div className="hamburger" onClick={toggleMobileMenu}>
-            <span className="hamburger-icon">☰</span>
-            <span className="close-icon">✕</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      <div className="mobile-overlay" id="mobileOverlay" onClick={toggleMobileMenu}></div>
-
-      {/* Mobile Menu */}
-      <div className="mobile-menu" id="mobileMenu">
-        <a href="#about" onClick={toggleMobileMenu}>About</a>
-        <a href="#work" onClick={toggleMobileMenu}>Work</a>
-        <a href="#contact" onClick={toggleMobileMenu}>Contact</a>
-        <a href="#chat" onClick={toggleMobileMenu}>Chat</a>
       </div>
 
       <div className="landing-circle1"></div>

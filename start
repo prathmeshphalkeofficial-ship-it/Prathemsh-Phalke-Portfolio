@@ -1,5 +1,5 @@
 git add .
-git commit -m "fixed issue of social icon "
+git commit -m "fixed issue of video"
 git push
 vercel --prod
 
