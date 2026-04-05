@@ -19,6 +19,13 @@ const projects = [
     link: "https://swaraj-gym-fitness.vercel.app/",
   },
   {
+    title: "KPT Engineers",
+    category: "Precision Enclosure Manufacturing",
+    tools: "React, Modern UI, Responsive Design",
+    image: "/images/KPT Engieers.png",
+    link: "https://kpt-engineers.vercel.app/",
+  },
+  {
     title: "Titan AI",
     category: "AI Operating System / Jarvis Clone",
     tools: "React, Next.js, AI Integration",
