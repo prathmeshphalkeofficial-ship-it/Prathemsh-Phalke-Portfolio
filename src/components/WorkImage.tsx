@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MdArrowOutward } from "react-icons/md";
+import VanillaTilt from "vanilla-tilt";
 
 interface Props {
   image: string;
@@ -11,6 +12,18 @@ interface Props {
 const WorkImage = (props: Props) => {
   const [isVideo, setIsVideo] = useState(false);
   const [video, setVideo] = useState("");
+  const tiltRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (tiltRef.current) {
+      VanillaTilt.init(tiltRef.current, {
+        max: 10,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2,
+      });
+    }
+  }, []);
   const handleMouseEnter = async () => {
     if (props.video) {
       setIsVideo(true);
@@ -22,7 +35,13 @@ const WorkImage = (props: Props) => {
   };
 
   return (
-    <div className="work-image">
+    <div
+      ref={tiltRef}
+      className="work-image"
+      style={{
+        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(99, 102, 241, 0.1)",
+      }}
+    >
       <a
         className="work-image-in"
         href={props.link}
