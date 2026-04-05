@@ -366,3 +366,65 @@
     max-height: 250px;
   }
 }
+
+/* ==========================================
+   MOBILE SPECIFIC FIXES - Touch & Interaction
+   ========================================== */
+@media (max-width: 768px) {
+
+  /* Ensure carousel arrows are easily tappable */
+  .carousel-arrow {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    /* Ensure proper z-index for touch interaction */
+    z-index: 20;
+    /* Remove any potential overlay issues */
+    position: absolute;
+  }
+
+  .carousel-arrow-left {
+    left: 8px;
+  }
+
+  .carousel-arrow-right {
+    right: 8px;
+  }
+
+  /* Ensure dots are easily tappable */
+  .carousel-dots {
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  .carousel-dot {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+    /* Ensure proper touch target */
+    z-index: 20;
+  }
+
+  /* Prevent any overlay from blocking interactions */
+  .carousel-track-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .carousel-wrapper {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Optimize slide padding for mobile */
+  .carousel-slide {
+    padding: 25px 0;
+  }
+
+  /* Ensure carousel content is properly layered */
+  .carousel-content {
+    position: relative;
+    z-index: 5;
+  }
+}

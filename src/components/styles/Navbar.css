@@ -493,6 +493,26 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
+/* ==========================================
+   MOBILE SPECIFIC FIX - Reduced Line Spacing
+   ========================================== */
+@media (max-width: 768px) {
+  .hamburger-menu {
+    height: 14px;
+    /* Reduced from 20px for tighter spacing */
+  }
+
+  .hamburger-menu.open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    /* Adjusted for smaller height */
+  }
+
+  .hamburger-menu.open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    /* Adjusted for smaller height */
+  }
+}
+
 /* Light mode hamburger */
 :root.light .hamburger-menu .hamburger-line {
   background-color: #333;
