@@ -1,12 +1,12 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, memo } from "react";
 import "./styles/Work.css";
 import VanillaTilt from "vanilla-tilt";
-import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
     title: "Krishi Bot",
     category: "AI Agriculture Assistant",
+    description: "AI-powered agriculture assistant helping farmers with crop recommendations, disease detection, and real-time weather insights.",
     tools: "React, AI Integration, Real-time APIs",
     image: "/images/krishi_bot.png",
     link: "https://krishi-bot-4emu.vercel.app/",
@@ -14,6 +14,7 @@ const projects = [
   {
     title: "Swaraj Gym",
     category: "Business Website",
+    description: "Modern gym website with class schedules, membership plans, and an enquiry system for potential members.",
     tools: "React, Responsive Design, Enquiry System",
     image: "/images/swaraj_gym.png",
     link: "https://swaraj-gym-fitness.vercel.app/",
@@ -21,6 +22,7 @@ const projects = [
   {
     title: "KPT Engineers",
     category: "Precision Enclosure Manufacturing",
+    description: "Corporate website showcasing precision manufacturing capabilities, product catalog, and industry solutions.",
     tools: "React, Modern UI, Responsive Design",
     image: "/images/KPT Engieers.png",
     link: "https://kpt-engineers.vercel.app/",
@@ -28,6 +30,7 @@ const projects = [
   {
     title: "Titan AI",
     category: "AI Operating System / Jarvis Clone",
+    description: "Advanced AI operating system with voice recognition, task automation, and intelligent assistant capabilities.",
     tools: "React, Next.js, AI Integration",
     image: "/picture/TITAN.PNG",
     link: "https://titan-lite-os-prathmeshphalkeofficial-1984s-projects.vercel.app/",
@@ -35,6 +38,7 @@ const projects = [
   {
     title: "ByteSweep",
     category: "Carbon Footprint Remover",
+    description: "Sustainability platform that tracks, analyzes, and provides actionable insights to reduce carbon footprint.",
     tools: "React, Analytics, Optimization",
     image: "/picture/Bytesweep.JPG",
     link: "https://bytesweep.vercel.app/",
@@ -42,6 +46,7 @@ const projects = [
   {
     title: "Portfolio Website",
     category: "Web Development",
+    description: "Interactive 3D portfolio showcasing skills, projects, and experience with immersive animations and effects.",
     tools: "React, 3D Models, Animations",
     image: "/picture/Portfolio.JPG",
     link: "https://prathmesh-phalke-portfolio.vercel.app/",
@@ -58,7 +63,7 @@ const accentColors = [
   "#EF4444", // Red
 ];
 
-const Work = () => {
+const Work = memo(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const frontCardRef = useRef<HTMLDivElement>(null);
@@ -98,7 +103,7 @@ const Work = () => {
       if (isAnimating) return;
       setIsAnimating(true);
       setCurrentIndex(index);
-      setTimeout(() => setIsAnimating(false), 500);
+      setTimeout(() => setIsAnimating(false), 600);
     },
     [isAnimating]
   );
@@ -144,24 +149,6 @@ const Work = () => {
         </h2>
 
         <div className="card-stack-wrapper">
-          {/* Navigation Arrows */}
-          <button
-            className="carousel-arrow carousel-arrow-left"
-            onClick={() => handleCardClick("left")}
-            aria-label="Previous project"
-            data-cursor="disable"
-          >
-            <MdArrowBack />
-          </button>
-          <button
-            className="carousel-arrow carousel-arrow-right"
-            onClick={() => handleCardClick("right")}
-            aria-label="Next project"
-            data-cursor="disable"
-          >
-            <MdArrowForward />
-          </button>
-
           {/* Card Stack */}
           <div className="card-stack">
             {/* Right Card (Next) - Rendered first to be behind */}
@@ -188,6 +175,7 @@ const Work = () => {
                 </span>
                 <h4 className="card-title">{projects[nextIndex].title}</h4>
                 <p className="card-category">{projects[nextIndex].category}</p>
+                <p className="card-description">{projects[nextIndex].description}</p>
                 <div className="card-bottom-bar">
                   <span className="card-tools">{projects[nextIndex].tools}</span>
                 </div>
@@ -219,6 +207,7 @@ const Work = () => {
                 </span>
                 <h4 className="card-title">{projects[currentIndex].title}</h4>
                 <p className="card-category">{projects[currentIndex].category}</p>
+                <p className="card-description">{projects[currentIndex].description}</p>
                 <div
                   className="card-bottom-bar"
                   style={{ backgroundColor: accentColors[currentIndex] }}
@@ -253,6 +242,7 @@ const Work = () => {
                 </span>
                 <h4 className="card-title">{projects[prevIndex].title}</h4>
                 <p className="card-category">{projects[prevIndex].category}</p>
+                <p className="card-description">{projects[prevIndex].description}</p>
                 <div className="card-bottom-bar">
                   <span className="card-tools">{projects[prevIndex].tools}</span>
                 </div>
@@ -277,6 +267,6 @@ const Work = () => {
       </div>
     </div>
   );
-};
+});
 
-export default Work;
+export default memo(Work);

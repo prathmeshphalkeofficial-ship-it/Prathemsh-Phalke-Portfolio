@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import "./styles/ChatSection.css";
 import { getGroqChatCompletion } from "./utils/groq";
 import { IoSend, IoMic, IoMicOff, IoVolumeHigh, IoStop } from "react-icons/io5";
 
 
-const ChatSection = () => {
+const ChatSection = memo(() => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
     { role: "assistant", content: "Hey! Want to chat about my work or tech stack? Ask me anything!" },
   ]);
@@ -15,11 +15,11 @@ const ChatSection = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -37,7 +37,7 @@ const ChatSection = () => {
         const transcript = event.results[0][0].transcript;
         setInput((prev) => prev + (prev ? " " : "") + transcript);
         setIsListening(false);
-        
+
         // Auto-send after a short delay to allow React state to update the DOM
         setTimeout(() => {
           const sendBtn = document.querySelector('.chat-section .send-btn') as HTMLButtonElement;
@@ -58,16 +58,16 @@ const ChatSection = () => {
     }
   }, []);
 
-  const toggleListening = () => {
+  const toggleListening = useCallback(() => {
     if (isListening) {
       recognitionRef.current?.stop();
     } else {
       setIsListening(true);
       recognitionRef.current?.start();
     }
-  };
+  }, [isListening]);
 
-  const speak = (text: string, index: number) => {
+  const speak = useCallback((text: string, index: number) => {
     if (window.speechSynthesis.speaking && currentlySpeaking === index) {
       window.speechSynthesis.cancel();
       setCurrentlySpeaking(null);
@@ -76,7 +76,7 @@ const ChatSection = () => {
 
     // Stop any ongoing speech
     window.speechSynthesis.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1;
     utterance.pitch = 1;
@@ -86,15 +86,15 @@ const ChatSection = () => {
 
     setCurrentlySpeaking(index);
     window.speechSynthesis.speak(utterance);
-  };
+  }, [currentlySpeaking]);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    
+
     // Small timeout to ensure the user message render happens instantly
     setTimeout(async () => {
       setIsLoading(true);
@@ -111,14 +111,14 @@ const ChatSection = () => {
         setIsLoading(false);
       }
     }, 50);
-  };
+  }, [input, isLoading, messages]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSend();
     }
-  };
+  }, [handleSend]);
 
   return (
     <div className="chat-section" id="chat">
@@ -126,11 +126,11 @@ const ChatSection = () => {
         <div className="chat-section-info">
           <h2 className="title">CHAT <span>WITH</span> ME</h2>
           <p className="para">
-            Have questions about my projects, skills, or just want to say hi? 
+            Have questions about my projects, skills, or just want to say hi?
             My AI double is here to help you 24/7!
           </p>
         </div>
-        
+
         <div className="chat-section-box">
           <div className="chat-section-header">
             <div className="header-info">
@@ -143,9 +143,9 @@ const ChatSection = () => {
               <div key={index} className={`chat-section-message ${msg.role === "user" ? "user" : "bot"}`}>
                 <div className="message-content">{msg.content}</div>
                 {msg.role === "assistant" && (
-                  <button 
-                    className="listen-btn" 
-                    onClick={() => speak(msg.content, index)} 
+                  <button
+                    className="listen-btn"
+                    onClick={() => speak(msg.content, index)}
                     title={currentlySpeaking === index ? "Stop listening" : "Listen to response"}
                   >
                     {currentlySpeaking === index ? <IoStop size={16} /> : <IoVolumeHigh size={16} />}
@@ -159,10 +159,10 @@ const ChatSection = () => {
               </div>
             )}
           </div>
-          
+
           <div className="chat-section-input">
-            <button 
-              className={`mic-btn ${isListening ? "active" : ""}`} 
+            <button
+              className={`mic-btn ${isListening ? "active" : ""}`}
               onClick={toggleListening}
               title={isListening ? "Stop listening" : "Start voice input"}
             >
@@ -183,6 +183,6 @@ const ChatSection = () => {
       </div>
     </div>
   );
-};
+});
 
-export default ChatSection;
+export default memo(ChatSection);

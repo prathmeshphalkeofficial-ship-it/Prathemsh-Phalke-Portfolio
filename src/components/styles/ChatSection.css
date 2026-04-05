@@ -142,7 +142,7 @@
   align-items: center;
   color: var(--textTertiary);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .listen-btn:hover {
@@ -178,7 +178,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .mic-btn.active {
@@ -217,7 +217,7 @@
   color: var(--textPrimary);
   font-size: 16px;
   outline: none;
-  transition: all 0.3s;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .chat-section-input input::placeholder {
@@ -240,7 +240,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .send-btn:hover:not(:disabled) {

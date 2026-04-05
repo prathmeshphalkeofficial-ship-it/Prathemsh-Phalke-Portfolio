@@ -73,7 +73,7 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          <img src="/images/pp_logo.png" alt="PP Logo" className="navbar-logo" />
+          <img src="/images/pp_logo.png" alt="PP Logo" className="navbar-logo" decoding="async" />
         </a>
         <a
           href="mailto:prathmeshphalkeofficial@gmail.com"

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import * as THREE from "three";
 import setCharacter from "./utils/character";
 import setLighting from "./utils/lighting";
@@ -13,7 +13,7 @@ import {
 import setAnimations from "./utils/animationUtils";
 import { setProgress } from "../Loading";
 
-const Scene = () => {
+const Scene = memo(() => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
   const hoverDivRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef(new THREE.Scene());
@@ -32,7 +32,7 @@ const Scene = () => {
         antialias: true,
       });
       renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -98,9 +98,10 @@ const Scene = () => {
         });
       };
 
-      document.addEventListener("mousemove", (event) => {
+      const mouseMoveHandler = (event: MouseEvent) => {
         onMouseMove(event);
-      });
+      };
+      document.addEventListener("mousemove", mouseMoveHandler);
       const landingDiv = document.getElementById("landingDiv");
       if (landingDiv) {
         landingDiv.addEventListener("touchstart", onTouchStart);
@@ -108,7 +109,7 @@ const Scene = () => {
       }
       const animate = () => {
         requestAnimationFrame(animate);
-        
+
         // Skip rendering and updates if the component is hidden to save performance
         if (canvasDiv.current && getComputedStyle(canvasDiv.current).display === "none") {
           return;
@@ -143,7 +144,7 @@ const Scene = () => {
           canvasDiv.current.removeChild(renderer.domElement);
         }
         if (landingDiv) {
-          document.removeEventListener("mousemove", onMouseMove);
+          document.removeEventListener("mousemove", mouseMoveHandler);
           landingDiv.removeEventListener("touchstart", onTouchStart);
           landingDiv.removeEventListener("touchend", onTouchEnd);
         }
@@ -151,16 +152,17 @@ const Scene = () => {
     }
   }, []);
 
+  // Memoize the JSX to prevent unnecessary re-renders
   return (
     <>
       <div className="character-container">
-        <div className="character-model" ref={canvasDiv}>
+        <div className="character-model" ref={canvasDiv} style={{ pointerEvents: 'none' }}>
           <div className="character-rim"></div>
           <div className="character-hover" ref={hoverDivRef}></div>
         </div>
       </div>
     </>
   );
-};
+});
 
 export default Scene;

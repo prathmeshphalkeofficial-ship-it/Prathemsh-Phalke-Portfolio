@@ -5,6 +5,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Fix smooth scroll wrappers to match theme background */
@@ -591,7 +598,7 @@ html.dark .header {
   justify-content: center;
   cursor: pointer;
   z-index: 20;
-  transition: all 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   box-shadow: var(--shadowMd);
   opacity: 0;
   transform: scale(0.5);
@@ -638,7 +645,7 @@ html.dark .header {
   justify-content: center;
   cursor: pointer;
   z-index: 25;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   opacity: 0;
   transform: scale(0.8);
   pointer-events: auto;
@@ -806,7 +813,7 @@ html.dark .header {
   content: " ↗";
   font-size: 20px;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   display: inline-block;
   color: var(--accentColor);
 }
@@ -870,7 +877,7 @@ html.dark .header {
   justify-content: center;
   font-size: 22px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(8px);
   box-shadow: var(--shadowMd);
 }
@@ -904,7 +911,7 @@ html.dark .header {
   border: 1px solid var(--borderColorStrong);
   background: transparent;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
   padding: 0;
 }
 
@@ -1029,7 +1036,7 @@ html.dark .header {
   box-shadow: var(--shadowLg);
   overflow: hidden;
   transform-origin: bottom right;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .chat-box.hidden {
@@ -1163,7 +1170,7 @@ html.dark .header {
   align-items: center;
   justify-content: center;
   padding: 5px;
-  transition: all 0.3s;
+  transition: color 0.3s ease;
 }
 
 .mic-voice-btn.active {
