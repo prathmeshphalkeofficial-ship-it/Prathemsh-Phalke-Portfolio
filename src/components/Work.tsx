@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import "./styles/Work.css";
-import WorkImage from "./WorkImage";
+import VanillaTilt from "vanilla-tilt";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
@@ -48,9 +48,50 @@ const projects = [
   },
 ];
 
+// Accent colors for each project
+const accentColors = [
+  "#8B5CF6", // Purple
+  "#F97316", // Orange
+  "#10B981", // Green
+  "#3B82F6", // Blue
+  "#EC4899", // Pink
+  "#EF4444", // Red
+];
+
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const frontCardRef = useRef<HTMLDivElement>(null);
+  const tiltInstanceRef = useRef<any>(null);
+
+  // Initialize vanilla-tilt on the front card
+  useEffect(() => {
+    if (frontCardRef.current) {
+      // Destroy previous tilt instance if exists
+      if (tiltInstanceRef.current) {
+        frontCardRef.current.removeAttribute("data-tilt");
+        tiltInstanceRef.current.destroy();
+      }
+
+      // Initialize new tilt instance
+      VanillaTilt.init(frontCardRef.current, {
+        max: 12,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.15,
+      });
+
+      // Store reference to the tilt instance from the element
+      tiltInstanceRef.current = (frontCardRef.current as any)._vanilla_react_tilt;
+    }
+
+    return () => {
+      if (tiltInstanceRef.current && frontCardRef.current) {
+        frontCardRef.current.removeAttribute("data-tilt");
+        tiltInstanceRef.current.destroy();
+      }
+    };
+  }, [currentIndex]);
 
   const goToSlide = useCallback(
     (index: number) => {
@@ -74,6 +115,27 @@ const Work = () => {
     goToSlide(newIndex);
   }, [currentIndex, goToSlide]);
 
+  const handleCardClick = (position: "left" | "right" | "center") => {
+    if (position === "center") {
+      // Open project live link
+      window.open(projects[currentIndex].link, "_blank", "noopener,noreferrer");
+    } else if (position === "left") {
+      goToPrev();
+    } else {
+      goToNext();
+    }
+  };
+
+  // Calculate indices for the 3-card view
+  const getCardIndices = () => {
+    const total = projects.length;
+    const prevIndex = (currentIndex - 1 + total) % total;
+    const nextIndex = (currentIndex + 1) % total;
+    return { prevIndex, currentIndex, nextIndex };
+  };
+
+  const { prevIndex, nextIndex } = getCardIndices();
+
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
@@ -81,11 +143,11 @@ const Work = () => {
           My <span>Work</span>
         </h2>
 
-        <div className="carousel-wrapper">
+        <div className="card-stack-wrapper">
           {/* Navigation Arrows */}
           <button
             className="carousel-arrow carousel-arrow-left"
-            onClick={goToPrev}
+            onClick={() => handleCardClick("left")}
             aria-label="Previous project"
             data-cursor="disable"
           >
@@ -93,47 +155,108 @@ const Work = () => {
           </button>
           <button
             className="carousel-arrow carousel-arrow-right"
-            onClick={goToNext}
+            onClick={() => handleCardClick("right")}
             aria-label="Next project"
             data-cursor="disable"
           >
             <MdArrowForward />
           </button>
 
-          {/* Slides */}
-          <div className="carousel-track-container">
+          {/* Card Stack */}
+          <div className="card-stack">
+            {/* Right Card (Next) - Rendered first to be behind */}
             <div
-              className="carousel-track"
+              className="project-card project-card-right"
+              onClick={() => handleCardClick("right")}
               style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
+                borderColor: accentColors[nextIndex],
               }}
             >
-              {projects.map((project, index) => (
-                <div className="carousel-slide" key={index}>
-                  <div className="carousel-content">
-                    <div className="carousel-info">
-                      <div className="carousel-number">
-                        <h3>0{index + 1}</h3>
-                      </div>
-                      <div className="carousel-details">
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-                          <h4>{project.title}</h4>
-                        </a>
-                        <p className="carousel-category">
-                          {project.category}
-                        </p>
-                        <div className="carousel-tools">
-                          <span className="tools-label">Tools & Features</span>
-                          <p>{project.tools}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-image-wrapper">
-                      <WorkImage image={project.image} alt={project.title} />
-                    </div>
-                  </div>
+              <div className="card-image-container">
+                <img
+                  src={projects[nextIndex].image}
+                  alt={projects[nextIndex].title}
+                  className="card-image"
+                />
+              </div>
+              <div className="card-content">
+                <span
+                  className="card-number"
+                  style={{ color: accentColors[nextIndex] }}
+                >
+                  0{nextIndex + 1}
+                </span>
+                <h4 className="card-title">{projects[nextIndex].title}</h4>
+                <p className="card-category">{projects[nextIndex].category}</p>
+                <div className="card-bottom-bar">
+                  <span className="card-tools">{projects[nextIndex].tools}</span>
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* Front Card (Current/Active) */}
+            <div
+              ref={frontCardRef}
+              className="project-card project-card-front"
+              onClick={() => handleCardClick("center")}
+              style={{
+                borderColor: accentColors[currentIndex],
+              }}
+            >
+              <div className="card-image-container">
+                <img
+                  src={projects[currentIndex].image}
+                  alt={projects[currentIndex].title}
+                  className="card-image"
+                />
+              </div>
+              <div className="card-content">
+                <span
+                  className="card-number"
+                  style={{ color: accentColors[currentIndex] }}
+                >
+                  0{currentIndex + 1}
+                </span>
+                <h4 className="card-title">{projects[currentIndex].title}</h4>
+                <p className="card-category">{projects[currentIndex].category}</p>
+                <div
+                  className="card-bottom-bar"
+                  style={{ backgroundColor: accentColors[currentIndex] }}
+                >
+                  <span className="card-tools">{projects[currentIndex].tools}</span>
+                  <span className="card-live-link">Live Link →</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Left Card (Previous) - Rendered last to be on top of side cards */}
+            <div
+              className="project-card project-card-left"
+              onClick={() => handleCardClick("left")}
+              style={{
+                borderColor: accentColors[prevIndex],
+              }}
+            >
+              <div className="card-image-container">
+                <img
+                  src={projects[prevIndex].image}
+                  alt={projects[prevIndex].title}
+                  className="card-image"
+                />
+              </div>
+              <div className="card-content">
+                <span
+                  className="card-number"
+                  style={{ color: accentColors[prevIndex] }}
+                >
+                  0{prevIndex + 1}
+                </span>
+                <h4 className="card-title">{projects[prevIndex].title}</h4>
+                <p className="card-category">{projects[prevIndex].category}</p>
+                <div className="card-bottom-bar">
+                  <span className="card-tools">{projects[prevIndex].tools}</span>
+                </div>
+              </div>
             </div>
           </div>
 
