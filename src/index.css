@@ -1692,7 +1692,97 @@ body.section-whatido {
   }
 
   .chat-box {
-    width: 280px;
+    width: calc(100vw - 40px);
+    max-width: 280px;
     height: 400px;
+  }
+
+  /* Ensure no horizontal scrolling */
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  /* Make all containers mobile-friendly */
+  .container-main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Responsive images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Adjust landing section */
+  .landing-section {
+    padding: 20px 0;
+  }
+
+  /* Social icons spacing */
+  .social-icons-container {
+    gap: 12px;
+  }
+
+  .social-icons-container a {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Loading screen adjustments */
+  .loading-screen {
+    font-size: 14px;
+  }
+
+  /* Cursor disable on mobile */
+  .cursor-dot,
+  .cursor-outline {
+    display: none !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .chat-box {
+    width: calc(100vw - 30px);
+    max-width: 260px;
+    height: 380px;
+  }
+
+  .anime-character-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chat-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .chat-input-area input {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .chat-input-area button {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .chat-box {
+    height: 300px;
+    max-width: 320px;
+  }
+
+  .mobile-nav {
+    width: 300px;
   }
 }
